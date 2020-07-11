@@ -1,0 +1,26 @@
+{
+  "id": "string",
+  "Code": "string",
+  "Str1": {
+    "type": "string",
+    "description":  "这是一个字符串"
+  },
+  "Date": "date",
+  "Value": {
+    "type": "number"
+  },
+  "Bool1": "boolean",
+  "Ref": "mixed",
+  "Obj1": {
+    "Code": "string",
+    "Name": "string"
+  },
+  "Details": [{
+    "Value": "number",
+    "REF2": {
+      "id": "string",
+      "Code": "string",
+      "Name": "string"
+    }
+  }]
+}

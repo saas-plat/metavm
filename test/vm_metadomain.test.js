@@ -11,7 +11,7 @@ const {
   VM
 } = require('../lib/vm');
 
-describe('metadomain', () => {
+describe('业务环境', () => {
 
 
   it('隔离运行业务计算环境', async () => {
@@ -37,14 +37,11 @@ describe('metadomain', () => {
   })
 
   it('动态加载json运行', async () => {
-    const vm = VM();
-    const model = await vm.run('test/BankAccount',`
+    const vm = VM(__dirname + '/jscache');
+    const jsonfile = 'entity.json';
+    const model = await vm.run('BankAccount.js',`
       const { Entity } = require('@saas-plat/metaschema');
-      module.exports = Entity('BankAccount',{
-        "Code": {type:"string",mapping:'code'},
-        "Name": {type:"string",mapping:'name'},
-        "NewBalance": "number"
-      }) `);
+      module.exports = Entity('BankAccount',require('./${jsonfile}')) `);
     const BankAccount = MetaEntity.createModel(model.name, model.schema);
     expect(await BankAccount.create()).to.not.null;
   })
