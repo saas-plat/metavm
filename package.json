@@ -1,0 +1,66 @@
+{
+  "name": "@saas-plat/metavm",
+  "version": "1.0.0",
+  "description": "提供schema脚本的安全运行环境",
+  "main": "lib/vm.js",
+  "browser": "dist/vm.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "rm -rf dist && babel browser --out-dir dist --source-maps",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
+    "test": "cross-env NODE_ENV=test mocha",
+    "test_w": "cross-env NODE_ENV=test DEBUG=saas-plat*,-not_this mocha --watch",
+    "test_d": "cross-env NODE_ENV=test DEBUG=saas-plat*,sourced-repo-mongo*,-not_this mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saas-plat/metavm.git"
+  },
+  "keywords": [
+    "meta",
+    "vm"
+  ],
+  "author": "saas-plat.com",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/saas-plat/metavm/issues"
+  },
+  "homepage": "https://github.com/saas-plat/metavm#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/plugin-proposal-export-default-from": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/register": "^7.9.0",
+    "@babel/runtime": "^7.9.2",
+    "@saas-plat/metaapi": "^1.0.1",
+    "@saas-plat/metadomain": "^1.0.37",
+    "@saas-plat/metaquery": "^1.0.36",
+    "@saas-plat/metaschema": "^1.0.9",
+    "@saas-plat/metaui": "^1.1.49",
+    "babel-eslint": "^10.1.0",
+    "chai": "^4.2.0",
+    "conventional-changelog-cli": "^2.0.34",
+    "cross-env": "^6.0.3",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.17.0",
+    "i18next": "^19.6.0",
+    "mobx": "^5.15.4",
+    "mobx-react": "^6.2.2",
+    "mocha": "^7.1.1",
+    "react": "^16.13.1",
+    "react-i18next": "^11.7.0",
+    "react-router-dom": "^5.2.0"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "node-cache": "^5.1.2",
+    "vm2": "^3.9.2"
+  }
+}
