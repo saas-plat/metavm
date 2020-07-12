@@ -28,6 +28,11 @@
     "url": "https://github.com/saas-plat/metavm/issues"
   },
   "homepage": "https://github.com/saas-plat/metavm#readme",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "node-cache": "^5.1.2",
+    "vm2": "^3.9.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
@@ -51,16 +56,13 @@
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.17.0",
     "i18next": "^19.6.0",
+    "jsdom": "^16.3.0",
+    "jsdom-global": "^3.0.2",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "mocha": "^7.1.1",
     "react": "^16.13.1",
     "react-i18next": "^11.7.0",
     "react-router-dom": "^5.2.0"
-  },
-  "dependencies": {
-    "debug": "^4.1.1",
-    "node-cache": "^5.1.2",
-    "vm2": "^3.9.2"
   }
 }

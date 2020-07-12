@@ -93,7 +93,7 @@ describe('vm', () => {
   })
 
   it('验证一下json的系统类型是否相等', async () => {
-    const vm = VM();
+    const vm = VM(__dirname + '/jscache');
     const model = await vm.run('test/BankAccountTable', `
       const { DataTable } = require('@saas-plat/metaschema');
       module.exports = DataTable('BankAccountTable',{

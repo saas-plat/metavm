@@ -1,0 +1,46 @@
+{
+  "inventorys": {
+    "type": "TableModel",
+    "fields": {
+      "dataSource": {
+        "type": "string",
+        "default": "aa.inventorys"
+      },
+      "columns": {
+        "id": {
+          "lable": {
+            "type": "string",
+            "default": "ID"
+          },
+          "default": "string",
+          "dataSouce": {
+            "type": "string",
+            "default": "id"
+          },
+        },
+        "code": {
+          "lable": {
+            "type": "string",
+            "default": "编码"
+          },
+          "default": "string",
+          "dataSouce": {
+            "type": "string",
+            "default": "code"
+          },
+        },
+        "name": {
+          "lable": {
+            "type": "string",
+            "default": "名称"
+          },
+          "default": "string",
+          "dataSouce": {
+            "type": "string",
+            "default": "name"
+          },
+        }
+      }
+    }
+  }
+}

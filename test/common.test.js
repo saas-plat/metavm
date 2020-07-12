@@ -5,6 +5,8 @@ require('@saas-plat/metaapi').register({
   test: (data) => console.log(data)
 });
 
+process.env.JSONP_TIMEOUT = 3000;
+
 before(async () => {
   await metaquery.connect();
   await metadomain.connect();

@@ -1,0 +1,86 @@
+{
+  "type": "view",
+  "layout": "horizontal",
+  "items": [{
+      "type": "view",
+      "layout": "vertical",
+      "items": [{
+        "type": "toolbar",
+        "items": [{
+          "bind": "addTreeBtn",
+          "type": "button",
+          "onClick": "PartnerList.add"
+        }, {
+          "bind": "editTreeBtn",
+          "type": "button",
+          "onClick": "PartnerList.edit"
+        }, {
+          "bind": "deleteTreeBtn",
+          "type": "button",
+          "onClick": "PartnerList.delete"
+        }]
+      }, {
+        "type": "tree",
+        "items": [{
+          "bind": "categoryCode",
+          "type": "text",
+        }, {
+          "bind": "categoryName",
+          "type": "text",
+        }, {
+          "bind": "categoryParentid",
+          "type": "refer",
+        }]
+      }]
+    },
+    {
+      "type": "view",
+      "layout": "vertical",
+      "items": [{
+        "type": "toolbar",
+        "items": [{
+          "bind": "addBtn",
+          "type": "button",
+          "onClick": "PartnerList.add"
+        }, {
+          "bind": "editBtn",
+          "type": "button",
+          "onClick": "PartnerList.edit"
+        }, {
+          "bind": "deleteBtn",
+          "type": "button",
+          "onClick": "PartnerList.delete"
+        }, {
+          "bind": "searchBtn",
+          "type": "button",
+          "onClick": "PartnerList.search"
+        }]
+      }, {
+        "type": "table",
+        "bind": "partners",
+        "items": [{
+          "bind": "code",
+          "type": "text",
+        }, {
+          "bind": "name",
+          "type": "text",
+        }, {
+          "bind": "cusCreLine",
+          "type": "decimal",
+        }, {
+          "bind": "pertnerCategoryId",
+          "type": "text",
+        }, {
+          "bind": "pertnerAreaId",
+          "type": "text",
+        }, {
+          "bind": "pertnerLevelId",
+          "type": "text",
+        }, {
+          "bind": "pertnerIndustryId",
+          "type": "text",
+        }]
+      }]
+    }
+  ]
+}
