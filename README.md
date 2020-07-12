@@ -2,6 +2,7 @@
 提供schema脚本的安全运行沙箱
 
 node端隔离实体和查询的用户代码
+需要先把需要运行的用户代码下载到本地codepath文件夹里
 ```js
 const {
   VM
@@ -24,6 +25,7 @@ const BankAccount = MetaEntity.createModel(model.name, model.schema);
 ```
 
 web端隔离视图和视图模型的用户代码
+用户代码不用下载,通过http远程加载
 ```js
 const {
   VM
