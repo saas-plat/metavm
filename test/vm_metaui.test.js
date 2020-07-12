@@ -4,12 +4,15 @@ const {
 const fs = require('fs');
 const {
   MetaVM,
-  MetaUI
+  MetaUI,
+  ContainerModel,
+  SimpleModel
 } = require('@saas-plat/metaui');
 const {
   VM
 } = require('../browser/vm');
-// require('mock-local-storage');
+
+class NoneComponent {}
 
 describe('UI环境', () => {
 
@@ -17,6 +20,22 @@ describe('UI环境', () => {
     this.jsdom = require('jsdom-global')(`<head></head>`, {
       runScripts: "dangerously",
       resources: "usable"
+    })
+
+    MetaUI.register({
+      view: [NoneComponent, ContainerModel],
+      list: [NoneComponent, ContainerModel],
+      navbar: [NoneComponent, ContainerModel],
+      toolbar: [NoneComponent, ContainerModel],
+      buttongroup: [NoneComponent, ContainerModel],
+      tree: [NoneComponent, ContainerModel],
+      input: [NoneComponent, SimpleModel],
+      text: [NoneComponent, SimpleModel],
+      table: [NoneComponent, SimpleModel],
+      decimal: [NoneComponent, SimpleModel],
+      button: [NoneComponent, SimpleModel],
+      select: [NoneComponent, SimpleModel],
+      refer: [NoneComponent, SimpleModel],
     })
   })
 
@@ -251,12 +270,13 @@ describe('UI环境', () => {
       }
     })
 
-    //  const ApplyOrderViewModel = MetaVM.createModel(ApplyOrder.name, ApplyOrder.schema);
-    //     console.log(JSON.stringify(ApplyOrderViewModel))
-    // expect(ApplyOrderViewModel).to.be.eql();
+    const ApplyOrderViewModel = MetaVM.createModel(ApplyOrder.name, ApplyOrder.schema);
+    // console.log(JSON.stringify(ApplyOrderViewModel.create()))
+    expect(ApplyOrderViewModel.create()).to.not.null;
 
-    //const TestView1View = MetaUI.create(TestView1, ApplyOrderViewModel);
-    //expect(TestView1View).to.be.eql();
+    const view = MetaUI.create(TestView1, ApplyOrderViewModel.create());
+    // console.log(JSON.stringify(view))
+    expect(view).to.not.null;
   })
 
   it('动态加载json运行', async () => {
@@ -271,16 +291,16 @@ describe('UI环境', () => {
         const { View } = require('@saas-plat/metaschema');
         module.exports = View(${fs.readFileSync( __dirname + '/jscache/'+jsonview,'utf8')})
         `);
-    // console.log(model)
+      console.log(JSON.stringify(model ))
     // console.log(view)
     expect(model).to.not.null;
     expect(view).to.not.null;
 
-    // const ViewModel1 = MetaVM.createModel(model.name, model.schema);
-    // expect(ViewModel1).to.not.null;
-    //
-    // const View1 = MetaUI.create(view, ViewModel1);
-    // expect(View1).to.not.null;
+    const ViewModel1 = MetaVM.createModel(model.name, model.schema);
+    expect(ViewModel1).to.not.null;
+
+    const View1 = MetaUI.create(view, ViewModel1.create());
+    expect(View1).to.not.null;
 
   })
 

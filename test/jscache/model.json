@@ -42,5 +42,9 @@
         }
       }
     }
-  }
+  },
+
+  "addTreeBtn": {"type":"SimpleModel", "fields":{"name": "string"}, "default": {"name":"add"}},
+  "editTreeBtn": {"type":"SimpleModel", "fields":{"name": "string"}, "default": {"name":"edit"}},
+  "deleteTreeBtn": {"type":"SimpleModel", "fields":{"name": "string"}, "default": {"name":"delete"}}
 }
