@@ -164,10 +164,8 @@ class Vm {
       //debug(`with (sandbox) {\n${filecontent}\n}`)
       runSandbox = new Function('sandbox', `with (sandbox) {\n${filecontent}\n}`);
     } else {
-      // 文件名第一个_前可能是  [xxx-tag][_chunk].hash.js
-      let key = filename.split('_')[0];
-      // 也可能测试时没有hash  [xxxx].js
-      key = key.split('.')[0];
+      // key就是去掉扩展名的文件名  xxx.tag.js chunk.hash.js
+      let key = filename.substr(0, filename.lastIndexOf('.'));
       if (!key) {
         throw new Error('key not exist!', filename);
       }
