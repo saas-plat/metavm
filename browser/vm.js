@@ -66,54 +66,6 @@ function createJSONPCallback() {
   }
 }
 
-/*
- * With the above plugin, this function will get called just
- * before the script element is added to the DOM. It is passed
- * the script element object and should return either the same
- * script element object or a replacement (which is what we do
- * here).
- */
-const dynamicImportScriptHook = (headers, script, dynamicPublicPath = '') => {
-  const {
-    onerror,
-    onload
-  } = script;
-  var emptyScript = document.createElement('script');
-  /*
-   * Here is the fetch(). You can control the fetch as needed,
-   * add request headers, etc. We wrap webpack's original
-   * onerror and onload handlers so that we can clean up the
-   * object URL.
-   *
-   * Note that you'll probably want to handle errors from fetch()
-   * in some way (invoke webpack's onerror or some such).
-   */
-  fetch(dynamicPublicPath + script.src, {
-      headers
-    })
-    .then(response => response.blob())
-    .then(blob => {
-      script.src = URL.createObjectURL(blob);
-      script.onerror = (event) => {
-        URL.revokeObjectURL(script.src);
-        onerror(event);
-      };
-      script.onload = (event) => {
-        URL.revokeObjectURL(script.src);
-        onload(event);
-      };
-      emptyScript.remove();
-      document.head.appendChild(script);
-    });
-  /* Here we return an empty script element back to webpack.
-   * webpack will add this to document.head immediately.  We
-   * can't let webpack add the real script object because the
-   * fetch isn't done yet. We add it ourselves above after
-   * the fetch is done.
-   */
-  return emptyScript;
-};
-
 // https://www.barretlee.com/blog/2016/08/23/javascript-sandbox/
 // 1. code 中可以提前关闭 sandbox 的 with 语境，如 '} alert(this); {'；
 //    是不存在的,webpack编译语法检查不过
@@ -147,10 +99,6 @@ class Vm {
     root = root.replace(/\\/g, '/');
     this.root = root.endsWith('/') ? root : root + '/';
     this.modules = modules || [];
-    const {
-      headers,
-      ...other
-    } = sandbox;
     const sandobj = {
       console,
       setTimeout,
@@ -185,9 +133,7 @@ class Vm {
       Symbol,
       Math,
       require: moduleName => this.require(moduleName),
-      // 动态注入校验信息在加载script时
-      dynamicImportScriptHook: headers ? dynamicImportScriptHook.bind(headers) : null,
-      ...other,
+      ...(sandbox || {}),
     };
     Object.keys(sandobj).forEach(key => {
       Object.defineProperties(sandobj, {
@@ -217,8 +163,7 @@ class Vm {
     const fullpath = this.root + filename.replace(/\\/g, '/');
     if (filecontent) {
       //debug(`with (sandbox) {\n${filecontent}\n}`)
-      // dynamicImportScriptHook 支持dynamicPublicPath
-      runSandbox = new Function('sandbox', `with (sandbox) {\n var scope={dynamicPublicPath:'${fullpath}'};\n with(scope){\n${filecontent}\n}\n}`);
+      runSandbox = new Function('sandbox', `with (sandbox) {\n${filecontent}\n}`);
     } else {
       // key就是去掉扩展名的文件名  xxx.tag.js chunk.hash.js
       let key = filename.substr(0, filename.lastIndexOf('.'));
@@ -229,11 +174,11 @@ class Vm {
     }
     debug('vm run in sandbox...');
     this.sandbox.module = {};
-    // dynamicImportScriptHook 支持dynamicPublicPath
-    this.sandbox.dynamicPublicPath = fullpath;
+    this.sandbox.filename = fullpath;
     runSandbox(this.sandbox);
     const module = this.sandbox.module.exports;
     delete this.sandbox.module;
+    delete this.sandbox.filename;
     return module.default || module;
   }
 }
