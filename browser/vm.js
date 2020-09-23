@@ -209,7 +209,7 @@ class Vm {
     if (!this.modules.some(id => id === moduleName)) {
       throw new Error(`The module '${moduleName}' is not whitelisted in VM.`);
     }
-    return require(moduleName);
+    return module.require(moduleName);
   }
 
   async run(filename, filecontent) {
