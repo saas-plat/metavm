@@ -183,6 +183,6 @@ class Vm {
   }
 }
 
-exports.VM = (root, modules = ['@saas-plat/metaschema', '@saas-plat/metaapi'], sandbox = {}) => {
+exports.VM = (root, modules ={}, sandbox = {}) => {
   return new Vm(sandbox, modules, root);
 }
