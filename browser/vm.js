@@ -36,11 +36,11 @@ function jsonp(key, url, text) {
     script.onload = function () {
       cleanup();
       resolve(jsonpGetModule(key));
-    }
+    };
     script.onerror = function (event) {
       cleanup();
       reject(event);
-    }
+    };
     document.head.appendChild(script);
   });
 }
@@ -84,7 +84,7 @@ function createSandbox(sandbox) {
         return undefined;
       }
       return Reflect.get(target, key, receiver);
-    }
+    },
   });
   debug('create sandbox...');
   return proxy;
@@ -132,16 +132,16 @@ class Vm {
       Promise,
       Symbol,
       Math,
-      require: moduleName => this.require(moduleName),
+      require: (moduleName) => this.require(moduleName),
       ...(sandbox || {}),
     };
-    Object.keys(sandobj).forEach(key => {
+    Object.keys(sandobj).forEach((key) => {
       Object.defineProperties(sandobj, {
         [key]: {
-          value: sandobj[key]
-        }
-      })
-    })
+          value: sandobj[key],
+        },
+      });
+    });
     this.sandbox = createSandbox(sandobj);
     createJSONPCallback();
   }
@@ -152,7 +152,7 @@ class Vm {
     // if (/^(\.|\.\/|\.\.\/)/.exec(moduleName)) {
     //   // Module is relative file, e.g. ./script.js or ../script.js
     // } else
-    if (!this.modules.some(id => id === moduleName)) {
+    if (!this.modules.some((id) => id === moduleName)) {
       throw new Error(`The module '${moduleName}' is not whitelisted in VM.`);
     }
     return module.require(moduleName);
@@ -163,7 +163,10 @@ class Vm {
     const fullpath = this.root + filename.replace(/\\/g, '/');
     if (filecontent) {
       //debug(`with (sandbox) {\n${filecontent}\n}`)
-      runSandbox = new Function('sandbox', `with (sandbox) {\n${filecontent}\n}`);
+      runSandbox = new Function(
+        'sandbox',
+        `with (sandbox) {\n${filecontent}\n}`
+      );
     } else {
       // key就是去掉扩展名的文件名  xxx.tag.js chunk.hash.js
       let key = filename.substr(0, filename.lastIndexOf('.'));
@@ -183,6 +186,10 @@ class Vm {
   }
 }
 
-exports.VM = (root, modules ={}, sandbox = {}) => {
+exports.VM = (
+  root,
+  modules = ['@saas-plat/metaschema', '@saas-plat/metaapi'],
+  sandbox = {}
+) => {
   return new Vm(sandbox, modules, root);
-}
+};
